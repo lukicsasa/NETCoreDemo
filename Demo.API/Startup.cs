@@ -1,6 +1,8 @@
 ﻿using Demo.API.Middleware;
+using Demo.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Serialization;
@@ -18,6 +20,8 @@ namespace Demo.API
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DemoContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("DemoDatabase")));
             services.AddCors();
             services.AddMvc().AddJsonOptions(option => option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
         }
