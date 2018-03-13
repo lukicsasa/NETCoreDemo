@@ -1,4 +1,5 @@
-﻿using Demo.Data.Entities;
+﻿using Demo.API.Models.User;
+using Demo.Data.Entities;
 using System;
 
 namespace Demo.API.Models
@@ -9,7 +10,7 @@ namespace Demo.API.Models
         public string Username { get; set; }
         public string Name { get; set; }
         public long RoleId { get; set; }
-        public Role Role { get; set; }
+        public RoleModel Role { get; set; }
         public DateTime ExpirationDate { get; set; }
     }
 }

@@ -29,22 +29,15 @@ namespace Demo.Data
             return _context.Set<T>().Find(id);
         }
 
-        public virtual T FirstOrDefault(Expression<Func<T, bool>> match)
+        public virtual T FirstOrDefault(Expression<Func<T, bool>> match, string includeProperties = null)
         {
-            return _context.Set<T>().FirstOrDefault(match);
+            var query = Include(includeProperties);
+            return query.FirstOrDefault(match);
         }
 
         public IQueryable<T> Find(Expression<Func<T, bool>> match, string includeProperties = null)
         {
-            var query = _context.Set<T>().AsQueryable();
-            if (!string.IsNullOrWhiteSpace(includeProperties))
-            {
-                foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(property);
-                }
-            }
-
+            var query = Include(includeProperties);
             return query.Where(match);
         }
 
@@ -63,7 +56,7 @@ namespace Demo.Data
         {
             if (entity == null) return null;
             T exists = _context.Set<T>().Find(key);
-            if(exists != null)
+            if (exists != null)
             {
                 _context.Entry(exists).CurrentValues.SetValues(entity);
             }
@@ -88,9 +81,9 @@ namespace Demo.Data
         private bool _disposed = false;
         protected virtual void Dispose(bool disposing)
         {
-            if(!_disposed)
+            if (!_disposed)
             {
-                if(disposing)
+                if (disposing)
                 {
                     _context.Dispose();
                 }
@@ -102,6 +95,22 @@ namespace Demo.Data
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        private IQueryable<T> Include(string includeProperties, IQueryable<T> query = null)
+        {
+            if (query == null)
+                query = _context.Set<T>().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(includeProperties))
+            {
+                foreach (var property in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(property);
+                }
+            }
+
+            return query;
         }
     }
 }

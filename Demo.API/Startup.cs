@@ -1,4 +1,6 @@
-﻿using Demo.API.Middleware;
+﻿using Demo.API.Helpers;
+using Demo.API.Middleware;
+using Demo.Common.Helpers;
 using Demo.Data.Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,14 +16,16 @@ namespace Demo.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Helper.ConnectionString = Configuration.GetConnectionString("DemoDatabase");
+            SecurityHelper.SecretKey = Configuration.GetValue<string>("SecretKey");
         }
 
         public IConfiguration Configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DemoContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DemoDatabase")));
+            //services.AddDbContext<DemoContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("DemoDatabase")));
             services.AddCors();
             services.AddMvc().AddJsonOptions(option => option.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver());
         }

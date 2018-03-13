@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Demo.Common.Helpers;
+using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Data.Entities
 {
@@ -9,11 +10,20 @@ namespace Demo.Data.Entities
         public virtual DbSet<Subject> Subject { get; set; }
         public virtual DbSet<User> User { get; set; }
 
+        public DemoContext()
+        {
+        }
+
+        public DemoContext(DbContextOptions<DemoContext> options) : base(options)
+        {
+
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS;Database=Demo;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer(Helper.ConnectionString);
             }
         }
 

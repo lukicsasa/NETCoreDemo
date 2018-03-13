@@ -12,3 +12,5 @@ Post-Deployment Script Template
 
 INSERT INTO Role VALUES ('Student')
 INSERT INTO Role VALUES ('Professor')
+
+INSERT INTO [User] VALUES ('admin', '1000:VjyXU7Xf9jz3dqx61BrjnY5dIvGB4EHq:2hFT0Zmlv9EnkUj0ykp+VrNHCa+b4rCY', 'Admin Professor', 0, 2)
