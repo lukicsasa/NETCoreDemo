@@ -5,9 +5,11 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Demo.API.Helpers;
 
 namespace Demo.API.Models.Exam
 {
+    [ValidateModel]
     public class ExamModel
     {
         [Required]

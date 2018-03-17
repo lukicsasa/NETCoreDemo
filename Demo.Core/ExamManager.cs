@@ -18,7 +18,7 @@ namespace Demo.Core
                 var user = uow.UserRepository.GetById(exam.UserId);
                 ValidationHelper.ValidateNotNull(user);
 
-                var subject = uow.UserRepository.GetById(exam.SubjectId);
+                var subject = uow.SubjectRepository.GetById(exam.SubjectId);
                 ValidationHelper.ValidateNotNull(subject);
 
                 var existingExam = uow.ExamRepository.FirstOrDefault(a => a.Date.Date == exam.Date.Date && a.UserId == exam.UserId && a.SubjectId == exam.SubjectId);
@@ -36,6 +36,15 @@ namespace Demo.Core
             using (var uow = new UnitOfWork())
             {
                 var exams = uow.ExamRepository.Find(a => a.UserId == userId, "User,Subject");
+                return exams.ToList();
+            }
+        }
+
+        public List<Exam> GetAll()
+        {
+            using (var uow = new UnitOfWork())
+            {
+                var exams = uow.ExamRepository.Find(a => true, "User,Subject").OrderByDescending(o => o.Date);
                 return exams.ToList();
             }
         }

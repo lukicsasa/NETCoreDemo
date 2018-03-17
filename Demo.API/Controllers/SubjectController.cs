@@ -14,13 +14,20 @@ namespace Demo.API.Controllers
     [Route("api/Subject")]
     public class SubjectController : BaseController
     {
-
         [TokenAuthorize(Roles = "Professor")]
         [HttpPost]
         public SubjectModel Add([FromBody]SubjectModel subjectModel)
         {
             var subject = SubjectManager.Add(Mapper.AutoMap<SubjectModel, Subject>(subjectModel), CurrentUser.Id);
             return Mapper.Map(subject);
+        }
+
+        [TokenAuthorize(Roles = "Professor")]
+        [HttpGet("All")]
+        public List<SubjectModel> GetAll()
+        {
+            var subjects = SubjectManager.GetAll();
+            return subjects.Select(Mapper.Map).ToList();
         }
     }
 }

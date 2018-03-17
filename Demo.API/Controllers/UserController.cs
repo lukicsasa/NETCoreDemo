@@ -53,5 +53,13 @@ namespace Demo.API.Controllers
             List<Exam> exams = ExamManager.GetResults(id);
             return exams.Select(a => Mapper.Map(a)).ToList();
         }
+
+        [TokenAuthorize]
+        [HttpGet("Students")]
+        public List<UserModel> GetStudents()
+        {
+            var students = UserManager.GetStudents();
+            return students.Select(Mapper.AutoMap<User, UserModel>).ToList();
+        }
     }
 }

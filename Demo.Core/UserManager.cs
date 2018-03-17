@@ -1,4 +1,5 @@
-﻿using Demo.Common.Exceptions;
+﻿using System.Collections.Generic;
+using Demo.Common.Exceptions;
 using Demo.Common.Helpers;
 using Demo.Data;
 using Demo.Data.Entities;
@@ -46,6 +47,14 @@ namespace Demo.Core
                 var user = uow.UserRepository.FirstOrDefault(a => a.Id == id, "Role");
                 ValidationHelper.ValidateNotNull(user);
                 return user;
+            }
+        }
+
+        public List<User> GetStudents()
+        {
+            using (var uow = new UnitOfWork())
+            {
+                return uow.UserRepository.Find(a => !a.Archived && a.RoleId == (int) UserRole.Student).ToList();
             }
         }
     }
