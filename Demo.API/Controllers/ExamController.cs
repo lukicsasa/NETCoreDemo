@@ -20,7 +20,7 @@ namespace Demo.API.Controllers
         [HttpPost]
         public ExamModel Add([FromBody]ExamModel examModel)
         {
-            var exam = ExamManager.Add(Mapper.AutoMap<ExamModel, Exam>(examModel), CurrentUser.Id);
+            var exam = ExamManager.Add(Mapper.AutoMap<ExamModel, Exam>(examModel));
             return Mapper.Map(exam);
         }
 

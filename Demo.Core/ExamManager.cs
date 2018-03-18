@@ -10,7 +10,7 @@ namespace Demo.Core
 {
     public class ExamManager
     {
-        public Exam Add(Exam exam, long currentUserId)
+        public Exam Add(Exam exam)
         {
             using (var uow = new UnitOfWork())
             {
